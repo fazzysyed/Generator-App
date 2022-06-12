@@ -73,7 +73,7 @@ const CustomerStack = ()=>{
 }
 const TechnicianStack = ()=>{
   return(
-    <Stack.Navigator initialRouteName='SpringFallSerivce6'>
+    <Stack.Navigator initialRouteName='ServiceCall1'>
       <Stack.Screen
  options={{ headerShown: null }}
  name="TechnicalMain"

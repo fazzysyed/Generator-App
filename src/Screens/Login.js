@@ -10,7 +10,7 @@ import { loginUser } from '../store/Actions/actions';
 import Toast from 'react-native-simple-toast'
 const Login = ({navigation}) => {
     const dispatch = useDispatch();
-    const [email,setEmail] = useState("testtechnician@gmail.com")
+    const [email,setEmail] = useState("hkhan.swa@gmail.com")
     const [password,setPassword] = useState("12345678");
     const [loading,setLoading] = useState(false);
     const [techloading,setTechloading] = useState(false)

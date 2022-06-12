@@ -1,14 +1,252 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-
-const ServiceCall1 = () => {
+import { StyleSheet, Text, View,FlatList,TouchableOpacity } from 'react-native'
+import React,{useState} from 'react'
+import Layout from '../../components/Layout'
+import Button from '../../components/Button'
+import Modal from 'react-native-modal';
+import Icon from 'react-native-vector-icons/AntDesign'
+import Entypo from 'react-native-vector-icons/Entypo'
+import {TextInput} from 'react-native-paper'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+const ServiceCall1 = ({navigation}) => {
+  const [isVisible,setIsVisible] = useState(false)
+  const [customStep,setCustomStep] = useState("")
+  const [po,setPo] = useState(Math.floor(Math.random()*90000) + 10000  );
+  const [note,setNote] = useState("");
+  const [data,setData] = useState([
+    {
+      id : 1,
+      name : "John Deere 320"
+    },
+    {
+      id : 2,
+      name : "Control Board"
+    },
+    {
+      id : 3,
+      name : "Oil Filter"
+    },
+    {
+      id : 4,
+      name : "AVR"
+    },
+    {
+      id : 5,
+      name : "Fluids"
+    },
+  ])
   return (
-    <View>
-      <Text>ServiceCall1</Text>
+    <Layout>
+<Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10,alignSelf:"center",marginHorizontal:30,textAlign:"center"}}>Please add all job related notes here</Text>
+ 
+   {/* <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>PO #</Text> */}
+ <View style = {{flexDirection:"row"}}>
+   <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>PO #</Text>
+   <TextInput
+     
+     activeUnderlineColor='transparent'
+            
+     value={`${po}`}
+     onChangeText = {(text)=>setPo(text)}
+
+      underlineColor="tranparent"   // add this
+        outlineColor='tranparent'
+        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:80,marginHorizontal:10}}
+    
+    />
+</View>
+<View style = {{
+  height:200,marginVertical:20,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",padding:10,backgroundColor:"#FFFFFF",
+  marginBottom:10
+}}>
+<TextInput
+     
+     activeUnderlineColor='transparent'
+            numberOfLines={4}
+            multiline={true}
+
+            
+     value={note}
+     onChangeText = {(text)=>setNote(text)}
+
+      underlineColor="tranparent"   // add this
+        outlineColor='tranparent'
+        style = {{backgroundColor:"white",textAlign:"center"}}
+
+    />
+
+
+</View>
+<View style = {{
+  height:200,marginVertical:20,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",padding:10,backgroundColor:"#FFFFFF",
+  marginBottom:10
+}}>
+  <FlatList data={data} renderItem = {({item})=>(
+    <View style = {{padding:10,borderBottomWidth:1}}>
+      <Text style = {{color:"#000"}}>{item.name}</Text>
     </View>
+  )}/>
+</View>
+<View style = {{flexDirection:"row",justifyContent:"space-between",marginVertical:20}}>
+<View style = {{flexDirection:"row"}}>
+   <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>Date#</Text>
+   <TextInput
+     
+     activeUnderlineColor='transparent'
+            
+     value={`${po}`}
+     onChangeText = {(text)=>setPo(text)}
+
+      underlineColor="tranparent"   // add this
+        outlineColor='tranparent'
+        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:80,marginHorizontal:10}}
+    
+    />
+</View>
+<View style = {{flexDirection:"row"}}>
+   <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>Hours#</Text>
+   <TextInput
+     
+     activeUnderlineColor='transparent'
+            
+     value={`${po}`}
+     onChangeText = {(text)=>setPo(text)}
+
+      underlineColor="tranparent"   // add this
+        outlineColor='tranparent'
+        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:80,marginHorizontal:10}}
+    
+    />
+</View>
+</View>
+<View style = {{justifyContent:"space-between",flexDirection:"row"}}>
+  <Button title={"Add Part"} width = {150} onPress = {()=>{
+    setIsVisible(true)
+  }}/>
+  <Button title={"Next"} width = {150} onPress= {()=>{
+    navigation.navigate("ServiceCall2")
+  }}/>
+
+</View>
+<Modal isVisible={isVisible}>
+      <View style={styles.viewModal}>
+        <View style={styles.textModal1}>
+        <View/>
+          <Text
+            style={{
+              fontFamily: 'Poppins-SemiBold',
+              color: '#FFFFFF',
+              fontSize: 22,
+            }}>
+          Add Part
+          </Text>
+          <Entypo name='circle-with-cross' color={"#FFFFFF"} size={30} style = {{marginHorizontal:5}} onPress = {()=>setIsVisible(false)}/>
+        </View>
+        <View style={{marginHorizontal: 20, marginTop: 25}}>
+        <TextInput
+    //   label="Email"
+      value={customStep}
+      onChangeText = {(text)=>setCustomStep(text)}
+   
+      activeUnderlineColor='transparent'
+      underlineColor="tranparent"   // add this
+        outlineColor='tranparent'
+        style = {{height:50,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",marginVertical:10,backgroundColor:"#FFFFFF"}}
+ 
+    />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+      
+            alignSelf: 'center',
+            marginVertical: 20,
+          }}>
+      
+          <View
+            style={{
+              width: '50%',
+              alignSelf: 'center',
+      
+              borderRadius: 5,
+         
+  
+      
+            }}>
+            <TouchableOpacity  style={styles.otCancel} onPress = {()=>{
+              let newArray = [...data];
+              newArray.push({
+                id : data.length,
+                name : customStep,
+                custom :true
+              })
+              setData(newArray);
+              setIsVisible(false)
+              setCustomStep("")
+
+            }}>
+              <Text style={styles.textCancel1}>Add</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+    </Layout>
   )
 }
 
 export default ServiceCall1
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  viewModal: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    // paddingHorizontal: wp(6),
+    // marginTop: hp(10),
+    // paddingVertical: hp(3),
+  },
+  textModal2: {
+    fontSize: hp(2.2),
+    color: '#000',
+    marginVertical: hp(0.5),
+    fontFamily: 'Poppins-SemiBold',
+  },
+  textModal3: {
+    fontSize: hp(2.4),
+    color: '#004890',
+
+    fontFamily: 'Poppins-SemiBold',
+  },
+  textModal1: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 70,
+    backgroundColor: '#004890',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+flexDirection:"row",
+    borderColor: '#1A98D5',
+  },
+  textCancel: {
+    fontSize: hp(2),
+    fontFamily: 'Poppins-Regular',
+    textAlign: 'center',
+    color: '#FFFFFF',
+  },
+  textCancel1: {
+    fontSize: hp(2),
+
+    fontFamily: 'Poppins-Regular',
+
+    textAlign: 'center',
+    color: '#fff',
+  },
+  otCancel: {
+    backgroundColor: '#004890',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
