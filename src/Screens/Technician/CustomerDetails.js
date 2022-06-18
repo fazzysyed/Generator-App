@@ -44,7 +44,7 @@ useEffect(()=>{
 },[])
 
   return (
-    <Layout>
+<Layout back navigation={navigation}>
         <TouchableOpacity onPress={()=>{
     navigation.navigate("CustomerDetial",{
       item : item
@@ -145,14 +145,62 @@ useEffect(()=>{
 )}/>
 <View style = {{flexDirection:"row",justifyContent:"space-between"}}>
   <Button title={"Start Spring Service"} onPress = {()=>{
-    navigation.navigate("SpringFallSerivce1")
+   navigation.navigate("SpringFallSerivce1",{
+    fromfirstScreen :{
+      service_type : "Spring Service",
+      user_id : item.id,
+
+    }
+    
+  })
   }} width={180}/>
-  <Button title={"Start Fall Service"} width={180}/>
+  <Button title={"Start Fall Service"} width={180}
+  
+  onPress = {()=>{
+    navigation.navigate("SpringFallSerivce1",{
+      fromfirstScreen :{
+        service_type : "Fall Service",
+        user_id : item.id,
+
+      }
+      
+    })
+  }}
+  />
 
 </View>
 <View style = {{flexDirection:"row",justifyContent:"space-between"}}>
-  <Button title={"Start Service Call"} width={180}/>
-  <Button title={"Start Warranty Call"} width={180}/>
+  <Button title={"Start Service Call"} 
+  
+  onPress = {()=>{
+
+    navigation.navigate("ServiceCall1",{
+      fromfirstScreen :{
+        service_type : "Service Call",
+        user_id : item.id,
+
+      }
+      
+    })
+  }}
+  width={180} 
+  />
+  <Button title={"Start Warranty Call"} width={180}
+    onPress = {()=>{
+      console.log({
+        service_type : "Warranty Call",
+        user_id : item.id,
+      })
+      navigation.navigate("SpringFallSerivce1",{
+        fromfirstScreen :{
+          service_type : "Warranty Call",
+          user_id : item.id,
+  
+        }
+        
+      })
+    }}
+  />
 
 </View>
     </Layout>

@@ -2,39 +2,64 @@ import { StyleSheet, Text, View,Image ,TouchableOpacity} from 'react-native'
 import React,{useEffect, useState} from 'react'
 import Layout from '../../components/Layout'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-const ServiceImages = () => {
+import axios from 'axios'
+import { useSelector } from 'react-redux'
+const ServiceImages = ({navigation,route}) => {
+  const {id} = route.params
+  const user = useSelector(state=>state.Reducer.user)
   const [index,setIndex] = useState(0)
-  const [data,setData] = useState([{
-    id:1,
-    image : require("../../Assets/Images/generator.png")
-  },
-  {
-    id:2,
-    image : require("../../Assets/Images/generator.png")
-  },
-  {
-    id:3,
-    image : require("../../Assets/Images/generator.png")
-  },
+  const [data,setData] = useState([
 ])
+
+useEffect(()=>{
+
+  var formdata = new FormData();
+  formdata.append("sdate", "05-12-2022");
+  formdata.append("edate", "12-12-2022");
+  
+  var requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data;',
+      Authorization: `Bearer ${user.access_token}`,
+    },
+    body: formdata,
+    redirect: 'follow'
+  };
+  
+  fetch(`http://generator.thecodelogy.com/api/all-images?id=${id}`, requestOptions)
+    .then(response => response.text())
+    .then(result => {
+      setData(JSON.parse(result).images)
+      console.log(JSON.parse(result),"AAAAAAA")
+    })
+    .catch(error => console.log('error', error));
+},[])
   return (
     <Layout back={true} navigation={navigation}>
     <View style = {{
   height:350,
-  marginBottom:50,
+  marginBottom:100,
   
 }}>
   {data.map((item,i)=>{
+    console.log(`http://generator.thecodelogy.com/api/storage/${item}`)
     if(i ===index ){
       return(
-        <Image source={item.image} style = {{height:"100%",width:"100%"}}/>
+        <Image source={{uri : `http://generator.thecodelogy.com/api/storage/${item}`}} style = {{height:"100%",width:"100%"}}/>
       )
     }
   })}
 </View>
+  {data.length ? 
+  
 <Text style = {{color:"#222222",fontWeight:"400",marginVertical:5,alignSelf:"center",marginHorizontal:30,textAlign:"center",bottom:70,fontSize:16}}>{index+1}/{data.length}</Text>
-
-<View style = {{flexDirection:"row",justifyContent:"space-between",marginVertical:1}}>
+:null
+}
+  {data.length ? 
+  
+  
+  <View style = {{flexDirection:"row",justifyContent:"space-between",marginVertical:1}}>
 <TouchableOpacity
 onPress={()=>{
   if(index != 0 ){
@@ -56,7 +81,12 @@ style={{height:50, borderRadius:5,  alignSelf: 'center', backgroundColor:  '#004
 >
   <AntDesign name='arrowright' size={25} />
 </TouchableOpacity>
-</View>
+</View> 
+
+:null
+  
+  
+  }
   </Layout>
   )
 }

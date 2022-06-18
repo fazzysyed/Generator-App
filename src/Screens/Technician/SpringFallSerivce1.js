@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View,FlatList,TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import { StyleSheet, Text, View,FlatList,TouchableOpacity,TextInput } from 'react-native'
+import React,{useEffect, useState} from 'react'
 import Layout from '../../components/Layout'
-import {TextInput} from 'react-native-paper'
+
 import CheckBox from '@react-native-community/checkbox';
 import Button from '../../components/Button';
 import Modal from 'react-native-modal';
@@ -13,8 +13,15 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { useDispatch } from 'react-redux';
+import SimpleToast from 'react-native-simple-toast';
 
-const SpringFallSerivce1 = ({navigation}) => {
+const SpringFallSerivce1 = ({navigation,route}) => {
+
+
+
+  const {fromfirstScreen} = route.params
+  const dispatch = useDispatch()
   const [po,setPo] = useState(Math.floor(Math.random()*90000) + 10000  );
   const [isVisible,setIsVisible] = useState(false)
   const [customStep,setCustomStep] = useState("")
@@ -42,19 +49,19 @@ const SpringFallSerivce1 = ({navigation}) => {
    
   ])
   return (
-    <Layout>
+    <Layout back navigation={navigation}>
    <View style = {{flexDirection:"row"}}>
    <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>PO #</Text>
    <TextInput
      
      activeUnderlineColor='transparent'
-            
-     value={`${po}`}
+            editable = {false} 
+     value={`${Math.floor(Math.random()*90000) + 10000 }`}
      onChangeText = {(text)=>setPo(text)}
 
       underlineColor="tranparent"   // add this
         outlineColor='tranparent'
-        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:80,marginHorizontal:10}}
+        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:80,marginHorizontal:10,color:"#000"}}
     
     />
 
@@ -98,7 +105,22 @@ const SpringFallSerivce1 = ({navigation}) => {
     setIsVisible(true)
   }}/>
   <Button title={"Next"} width={160} onPress = {()=>{
-    navigation.navigate("SpringFallSerivce2")
+
+if (data.some(e => e.selected === true)) {
+
+  let newData = {
+    checked : data,
+    fromfirstScreen : fromfirstScreen
+}
+console.log(newData)
+navigation.navigate("SpringFallSerivce2",{
+
+fromSecondScreen :   newData
+})
+}else {
+  SimpleToast.show("Atleast one material is required.")
+}
+
   }}/>
 
 </View>
@@ -113,7 +135,7 @@ const SpringFallSerivce1 = ({navigation}) => {
               color: '#FFFFFF',
               fontSize: 22,
             }}>
-          Add Custom Sep
+          Add Custom Step
           </Text>
           <Entypo name='circle-with-cross' color={"#FFFFFF"} size={30} style = {{marginHorizontal:5}} onPress = {()=>setIsVisible(false)}/>
         </View>
@@ -126,7 +148,7 @@ const SpringFallSerivce1 = ({navigation}) => {
       activeUnderlineColor='transparent'
       underlineColor="tranparent"   // add this
         outlineColor='tranparent'
-        style = {{height:50,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",marginVertical:10,backgroundColor:"#FFFFFF"}}
+        style = {{height:50,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",marginVertical:10,backgroundColor:"#FFFFFF",color:"#000"}}
  
     />
         </View>
@@ -153,7 +175,8 @@ const SpringFallSerivce1 = ({navigation}) => {
               newArray.push({
                 id : data.length,
                 name : customStep,
-                custom :true
+                custom :true,
+                selected :true,
               })
               setData(newArray);
               setIsVisible(false)

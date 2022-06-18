@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View,FlatList,Image,ActivityIndicator,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,FlatList,Image,ActivityIndicator,TouchableOpacity,TextInput } from 'react-native'
 import React, { useState, useEffect} from 'react'
 import Layout from '../../components/Layout'
-import {TextInput} from 'react-native-paper'
+// import {TextInput} from 'react-native-paper'
 import Icon from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import axios from "axios";
@@ -41,19 +41,45 @@ axios(config)
 });
 
   },[])
+
+ const searchItems = text => {
+   let array = [...customers]
+    let newData = array.filter(item => {
+      const itemData = `${item.fname.toUpperCase()}`;
+      const textData = text.toUpperCase();
+    if(text.length >0 ){
+      return itemData.indexOf(textData) > -1;
+    }
+    if(text.length ===0 ){
+      setCustomers(customers);
+      setSearch("")
+
+    }
+    });
+    setCustomers(newData);
+    setSearch(text)
+    
+  };
+
+  const filteredData = search
+  ? customers.filter(x =>
+    x.fname.toLowerCase().includes(search.toLowerCase()),
+  )
+  : customers;
+
   return (
-<Layout>
+<Layout back navigation={navigation}>
 <TextInput
      
      activeUnderlineColor='transparent'
             
      value={search}
      onChangeText = {(text)=>setSearch(text)}
-      secureTextEntry
+ 
       underlineColor="tranparent"   // add this
         outlineColor='tranparent'
-        style = {{height:45,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white"}}
-      left={<TextInput.Icon name="account-search-outline" />}
+        style = {{height:45,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",color:"#000"}}
+      // left={<TextInput.Icon name="account-search-outline" />}
     />
     <View style ={{marginTop:20}}>
       {loading ? 
@@ -62,7 +88,7 @@ axios(config)
       <ActivityIndicator color={"#004890"} size="large"/>
     </View> : 
 
-<FlatList data={customers} renderItem={({item})=>(
+<FlatList data={filteredData} renderItem={({item})=>(
   <TouchableOpacity onPress={()=>{
     navigation.navigate("CustomerDetial",{
       item : item

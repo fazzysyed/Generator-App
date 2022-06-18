@@ -1,33 +1,56 @@
 import { StyleSheet, Text, View,FlatList } from 'react-native'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Layout from '../../components/Layout'
 import {TextInput} from 'react-native-paper'
 import Button from '../../components/Button'
-const ServiceDetail = ({navigation}) => {
+import { useSelector } from 'react-redux'
+import axios from 'axios'
+const ServiceDetail = ({navigation,route}) => {
+  const user = useSelector(state=>state.Reducer.user)
+
+
+
+
+  const {id} = route.params
+
+
+
   const [note,setNote] = useState("")
   const [data,setData] = useState([
-    {
-      id : 1,
-      name : "John Deere 320"
-    },
-    {
-      id : 2,
-      name : "Control Board"
-    },
-    {
-      id : 3,
-      name : "Oil Filter"
-    },
-    {
-      id : 4,
-      name : "AVR"
-    },
-    {
-      id : 5,
-      name : "Fluids"
-    },
+  
   ])
+
+  useEffect(()=>{
+    if(id){
+      var data = new FormData();
+
+var config = {
+  method: 'get',
+  url: `http://generator.thecodelogy.com/api/customer-call-history-detail/${id}`,
+  headers: { 
+    'Accept': 'application/json', 
+    'Authorization': `Bearer ${user.access_token}`, 
+  
+  },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(response.data.service_call_history);
+  setData(response.data.materials)
+  setNote(response.data.service_call_history.notes)
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+    }
+  },[])
   return (
+
+
+
     <Layout back={true} navigation={navigation}>
 <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10,alignSelf:"center",marginHorizontal:30,textAlign:"center"}}>John Smith - General Service Call</Text>
 <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:5,alignSelf:"center",marginHorizontal:30,textAlign:"center"}}>9/2/21 - 3:30 pm</Text>
@@ -42,7 +65,7 @@ const ServiceDetail = ({navigation}) => {
             numberOfLines={4}
             multiline={true}
 
-            
+            editable={false}
      value={note}
      onChangeText = {(text)=>setNote(text)}
 
@@ -60,13 +83,15 @@ const ServiceDetail = ({navigation}) => {
 }}>
  <FlatList data={data} renderItem = {({item})=>(
     <View style = {{padding:4}}>
-      <Text style = {{color:"#000"}}>{item.name}</Text>
+      <Text style = {{color:"#000"}}>{item.material}</Text>
     </View>
   )}/>
 
 </View>
 <Text style = {{color:"#222222",fontWeight:"400",marginVertical:5,alignSelf:'flex-end',textAlign:"center"}} onPress = {()=>{
-  navigation.navigate("ServiceImages")
+  navigation.navigate("ServiceImages",{
+    id : id,
+  })
 }}>View Images</Text>
   
 

@@ -1,44 +1,26 @@
-import { StyleSheet, Text, View,FlatList,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,FlatList,TouchableOpacity,TextInput } from 'react-native'
 import React,{useState} from 'react'
 import Layout from '../../components/Layout'
 import Button from '../../components/Button'
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
-import {TextInput} from 'react-native-paper'
+// import {TextInput} from 'react-native-paper'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-const ServiceCall1 = ({navigation}) => {
-  const [isVisible,setIsVisible] = useState(false)
+const ServiceCall1 = ({navigation,route}) => {
+  const {fromfirstScreen}  = route.params
+    const [isVisible,setIsVisible] = useState(false)
   const [customStep,setCustomStep] = useState("")
   const [po,setPo] = useState(Math.floor(Math.random()*90000) + 10000  );
   const [note,setNote] = useState("");
   const [data,setData] = useState([
-    {
-      id : 1,
-      name : "John Deere 320"
-    },
-    {
-      id : 2,
-      name : "Control Board"
-    },
-    {
-      id : 3,
-      name : "Oil Filter"
-    },
-    {
-      id : 4,
-      name : "AVR"
-    },
-    {
-      id : 5,
-      name : "Fluids"
-    },
+  
   ])
   return (
-    <Layout>
+    <Layout back navigation={navigation}>
 <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10,alignSelf:"center",marginHorizontal:30,textAlign:"center"}}>Please add all job related notes here</Text>
  
    {/* <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>PO #</Text> */}
@@ -58,7 +40,7 @@ const ServiceCall1 = ({navigation}) => {
     />
 </View>
 <View style = {{
-  height:200,marginVertical:20,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",padding:10,backgroundColor:"#FFFFFF",
+  height:200,marginVertical:20,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"#FFFFFF",
   marginBottom:10
 }}>
 <TextInput
@@ -71,52 +53,56 @@ const ServiceCall1 = ({navigation}) => {
      value={note}
      onChangeText = {(text)=>setNote(text)}
 
-      underlineColor="tranparent"   // add this
-        outlineColor='tranparent'
-        style = {{backgroundColor:"white",textAlign:"center"}}
+   
+        style = {{backgroundColor:"white",textAlign:"left"}}
 
     />
 
 
 </View>
-<View style = {{
-  height:200,marginVertical:20,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",padding:10,backgroundColor:"#FFFFFF",
-  marginBottom:10
-}}>
+
+  {data.length ?
+  <View style = {{
+    height:200,marginVertical:20,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",padding:10,backgroundColor:"#FFFFFF",
+    marginBottom:10
+  }}>
   <FlatList data={data} renderItem = {({item})=>(
     <View style = {{padding:10,borderBottomWidth:1}}>
       <Text style = {{color:"#000"}}>{item.name}</Text>
     </View>
-  )}/>
+  )}/> 
 </View>
+: null
+} 
 <View style = {{flexDirection:"row",justifyContent:"space-between",marginVertical:20}}>
 <View style = {{flexDirection:"row"}}>
    <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>Date#</Text>
    <TextInput
      
      activeUnderlineColor='transparent'
-            
-     value={`${po}`}
-     onChangeText = {(text)=>setPo(text)}
+     editable= {false}
+  
+     value={`${    new Date().toLocaleDateString()}`}
+    //  onChangeText = {(text)=>setPo(text)}
 
       underlineColor="tranparent"   // add this
         outlineColor='tranparent'
-        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:80,marginHorizontal:10}}
+        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:100,marginHorizontal:10,fontSize:12,textAlign:"left",color:"#000"}}
     
     />
 </View>
 <View style = {{flexDirection:"row"}}>
-   <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>Hours#</Text>
+   <Text style = {{color:"#000",fontWeight:"bold",marginVertical:10}}>Time#</Text>
    <TextInput
      
      activeUnderlineColor='transparent'
             
-     value={`${po}`}
-     onChangeText = {(text)=>setPo(text)}
+     value={`${new Date().toLocaleTimeString()}`}
+     editable= {false}
 
       underlineColor="tranparent"   // add this
         outlineColor='tranparent'
-        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:80,marginHorizontal:10}}
+        style = {{height:40,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",backgroundColor:"white",width:80,marginHorizontal:10,fontSize:12,color:"#000"}}
     
     />
 </View>
@@ -126,7 +112,16 @@ const ServiceCall1 = ({navigation}) => {
     setIsVisible(true)
   }}/>
   <Button title={"Next"} width = {150} onPress= {()=>{
-    navigation.navigate("ServiceCall2")
+    navigation.navigate("ServiceCall2",{
+      fromSecondScreen : {
+        note : note,
+        materials : data,
+        po : po,
+        user_id : fromfirstScreen.user_id,
+        service_type : fromfirstScreen.service_type
+
+      }
+    })
   }}/>
 
 </View>

@@ -4,8 +4,10 @@ import Layout from '../../components/Layout'
 import Camera from 'react-native-vector-icons/Feather'
 import { launchCamera } from 'react-native-image-picker';
 import Button from '../../components/Button';
+import SimpleToast from 'react-native-simple-toast';
 
-const SpringFallSerivce6 = ({navigation}) => {
+const SpringFallSerivce6 = ({navigation,route}) => {
+  const {fromSixthScreen} = route.params
   const [image,setImage] = useState([
     {
       id :1,
@@ -49,14 +51,14 @@ const getImage = (index)=>{
       if (response.assets) {
         let newArray = [...image];
         newArray[index].image = response.assets[0]
-
+        console.log(newArray)
         setImage(newArray);
      
       }
     });
 }
   return (
-  <Layout>
+    <Layout back navigation={navigation}>
     <View style = {{justifyContent:"space-between",flex:1}}>
    <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10,alignSelf:"center",marginHorizontal:30,textAlign:"center"}}>If Needed take extra pictures</Text>
 
@@ -98,7 +100,18 @@ justifyContent:"center",
     )}/>
       <View style = {{marginVertical:30}}>
         <Button title={"Next"} width={160} onPress = {()=>{
-          navigation.navigate("SpringFallSerivce7")
+          if(image.some(e => e.image != null)){
+            let newData = {
+              ...fromSixthScreen,
+              extraImages : image
+            }
+            console.log(newData)
+          navigation.navigate("SpringFallSerivce7",{
+            fromSeventhScreen : newData
+          })
+          }else{
+            SimpleToast.show("Image is required.")
+          }
         }}/>
       </View>
     </View>

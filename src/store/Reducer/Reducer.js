@@ -1,7 +1,8 @@
-import { LOGIN_USER } from "../Actions/actionTypes";
+import { LOGIN_USER, SERVICE } from "../Actions/actionTypes";
 
 const initialState = {
-    user : null
+    user : null,
+    service : null,
 };
 
 
@@ -13,6 +14,11 @@ const Reducer = (state = initialState, action) => {
         ...state,
         user: payload,
       };
+      case SERVICE : 
+      return {
+          ...state,
+          service: payload,
+        };
     default:
         return state;
     }

@@ -7,7 +7,7 @@ const Service = ({item,onPress}) => {
     <View  style = {styles.card}>
       <View> 
 
-    <Text style = {{color:"#222222",fontWeight:"400",marginVertical:5,textAlign:"center",fontSize:16}}>{item.name}</Text>
+    <Text style = {{color:"#222222",fontWeight:"400",marginVertical:5,textAlign:"center",fontSize:16}}>{item.service_type}</Text>
       <View style ={{flexDirection:"row",marginTop:10}}>
     <Text style = {{color:"#222222",marginHorizontal:10}}>{item.date}</Text>
     <Text style = {{color:"#222222",marginHorizontal:10}}>{item.time}</Text>

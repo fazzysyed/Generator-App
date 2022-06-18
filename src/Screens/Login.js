@@ -10,69 +10,87 @@ import { loginUser } from '../store/Actions/actions';
 import Toast from 'react-native-simple-toast'
 const Login = ({navigation}) => {
     const dispatch = useDispatch();
-    const [email,setEmail] = useState("hkhan.swa@gmail.com")
-    const [password,setPassword] = useState("12345678");
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("");
     const [loading,setLoading] = useState(false);
     const [techloading,setTechloading] = useState(false)
+    const [secure,setSecure] = useState(false)
 
 const customerLogin = ()=>{
-    setLoading(true)
-    var data = JSON.stringify({
-        "email": email,
-        "password": password
-      });
-      
-      var config = {
-        method: 'post',
-        url: 'http://generator.thecodelogy.com/api/login',
-        headers: { 
-          'Content-Type': 'application/json'
-        },
-        data : data
-      };
-      
-      axios(config)
-      .then(function (response) {
-    setLoading(false)
-        dispatch(loginUser(response.data))
-        // console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-    setLoading(false)
 
-        console.log(error);
-      });
+  if(email.length && password.length){
+    setLoading(true)
+    let formdata = new FormData()
+      formdata.append("email",email);
+    formdata.append("password", password);
+    
+    var requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow'
+    };
+    fetch("http://generator.thecodelogy.com/api/login?email&password", requestOptions)
+.then(response => response.text())
+    .then(function (res) {
+      let response = JSON.parse(res)
+      console.log(response)
+      setLoading(false)
+          dispatch(loginUser(response))
+          console.log(response.data);
+     
+  })
+  .catch(error => {
+    setLoading(false)
+    Toast.show("Email or Password is incorrect.")
+  });
+   
+  }else {
+    Toast.show("Both fields are required.")
+  }
+
+
+
+
       
 }
 
 const technicianLogin = ()=>{
-    setTechloading(true)
-    var data = JSON.stringify({
-        "email": email,
-        "password": password
-      });
-      
-      var config = {
-        method: 'post',
-        url: 'http://generator.thecodelogy.com/api/login',
-        headers: { 
-          'Content-Type': 'application/json'
-        },
-        data : data
-      };
-      
-      axios(config)
-      .then(function (response) {
-        setTechloading(false)
-        dispatch(loginUser(response.data))
-        // console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        setTechloading(false)
 
-        console.log(error);
+  if(email.length && password.length){
+    setTechloading(true)
+
+    let formdata = new FormData()
+      formdata.append("email",email);
+    formdata.append("password", password);
+    
+    var requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow'
+    };
+    fetch("http://generator.thecodelogy.com/api/login?email&password", requestOptions)
+    .then(response => response.text())
+        .then(function (res) {
+          let response = JSON.parse(res)
+          console.log(response)
+          setTechloading(false)
+              dispatch(loginUser(response))
+              console.log(response);
+         
+      })
+      .catch(error => {
+        setTechloading(false)
+    Toast.show("Email or Password is incorrect.")
+
       });
-      
+  }else {
+    Toast.show("Both fields are required.")
+
+  }
+  
+    
+  
+       
 }
   return (
    <Layout>
@@ -93,7 +111,7 @@ const technicianLogin = ()=>{
         style = {{height:50,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",marginVertical:10}}
       right={<TextInput.Icon name="check" />}
     />
-       <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>Password</Text>
+       <Text style = {{ color:"#222222",fontWeight:"bold",marginVertical:10}}>Password</Text>
 
 <TextInput
      
@@ -101,11 +119,11 @@ const technicianLogin = ()=>{
             
      value={password}
      onChangeText = {(text)=>setPassword(text)}
-      secureTextEntry
+      secureTextEntry ={secure}
       underlineColor="tranparent"   // add this
         outlineColor='tranparent'
         style = {{height:45,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F"}}
-      right={<TextInput.Icon name="eye" />}
+      right={<TextInput.Icon name="eye" onPress = {()=>{setSecure(!secure)}} />}
     />
        <Text style = {{color:"#242424",fontWeight:"500",marginVertical:10,alignSelf:"flex-end"}} onPress = {()=>{
 navigation.navigate("Forget")

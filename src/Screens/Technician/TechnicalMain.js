@@ -1,11 +1,15 @@
 import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
 import React from 'react'
 import Layout from '../../components/Layout'
-
-
+import {useDispatch} from 'react-redux'
+import {loginUser} from '../../store/Actions/actions'
 const TechnicalMain = ({navigation}) => {
+    const dispatch = useDispatch()
   return (
-   <Layout>
+   <Layout logout logoutHandler={()=>{
+       dispatch(loginUser(null))
+       
+   }}>
        <TouchableOpacity style = {styles.card} onPress = {()=>navigation.navigate("CustomerSearch")}>
     <View style = {{marginHorizontal:10,marginTop:20}}>
        <Text style = {{color:"#222222",fontWeight:"600",marginVertical:5,fontSize:20}}>Customer Search</Text>
@@ -18,7 +22,7 @@ const TechnicalMain = ({navigation}) => {
 </View>
 
        </TouchableOpacity>
-       <TouchableOpacity style = {styles.card1}>
+       <TouchableOpacity style = {styles.card1} onPress = {()=>navigation.navigate("Map")}>
     <View style = {{marginHorizontal:10,marginTop:20}}>
        <Text style = {{color:"#222222",fontWeight:"600",marginVertical:5,fontSize:20}}>Route</Text>
        <Text style = {{color:"#222222",fontWeight:"400",marginVertical:5,fontSize:14,width:150}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>

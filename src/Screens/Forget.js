@@ -5,6 +5,7 @@ import {TextInput} from 'react-native-paper'
 import {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll-view';
 import Button from '../components/Button';
 import axios from 'axios';
+import Toast from 'react-native-simple-toast'
 const ForgetPassword = ({navigation}) => {
     const [email,setEmail] = useState("")
   
@@ -35,8 +36,8 @@ const forgetPassword = ()=>{
 }
 
   return (
-   <Layout>
-       
+   <Layout navigation={navigation} back>
+        
        <Image source={require("../Assets/Images/forget.png")} style = {{height:250,width:250,alignSelf:"center",marginBottom:40}} />
      
 
