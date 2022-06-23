@@ -13,7 +13,7 @@ const Button = ({ onPress, title, disabled, loading, color, width }) => {
 
             {loading ?
                 <ActivityIndicator color={"white"} /> :
-                <Text style={{ fontSize: 15, color: '#FFFFFF', elevation: 2, fontFamily: 'Poppins-Regular', textAlign: 'center' }}>{title}</Text>
+                <Text style={{ fontSize: 15, color: '#FFFFFF', elevation: 2,  textAlign: 'center' }}>{title}</Text>
 
             }
 

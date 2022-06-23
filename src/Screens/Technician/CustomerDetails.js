@@ -7,11 +7,25 @@ import Email from 'react-native-vector-icons/MaterialCommunityIcons'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import Button from '../../components/Button'
+import IconC from 'react-native-vector-icons/AntDesign'
+
 const CustomerDetails = ({navigation,route}) => {
   const user = useSelector(state=>state.Reducer.user);
   const [generators,setGenerators] = useState([])
   const [loading,setLoading] = useState(false)
   const { item } = route.params;
+  const [selected,setSelected] = useState(0)
+
+
+  const onSelection =(item)=>{
+   let selectedID = selected;
+    if(selectedID === item.id) {
+      setSelected(0)
+    }else {
+      setSelected(item.id)
+    }
+
+  }
 
 useEffect(()=>{
 
@@ -86,10 +100,15 @@ useEffect(()=>{
 
 
 <FlatList data={generators} ListFooterComponent = {()=>(
-  <View style = {{height:80}}/>
+  <View style = {{height:30}}/>
 )} renderItem={({item})=>(
-<View style = {styles.cardGen}>
+<TouchableOpacity onPress={()=>onSelection(item)} style = {styles.cardGen}>
+  <View style = {{flexDirection:"row",justifyContent:"space-between"}}> 
 <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:5,fontSize:17}}>Generators</Text>
+<View style = {{backgroundColor:selected === item.id ? "#004890"  : "#FFFFFF",height:30,width:30,justifyContent:"center",alignItems:"center",borderRadius:5,borderWidth:1,borderColor:"#004890"}}>
+      <IconC name='check' color={"#FFFFFF"} size = {20}/>
+      </View>
+</View>
 <View style = {{flexDirection:"row"}}>
 <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:5,textAlign:"center",fontSize:17}}>Brand</Text>
 <Text style = {{color:"#222222",fontWeight:"400",marginVertical:5,textAlign:"center",fontSize:17,marginHorizontal:10}}>{item.brand}</Text>
@@ -141,8 +160,12 @@ useEffect(()=>{
 
 
 </View>
-</View>
+</TouchableOpacity>
 )}/>
+  {selected ? 
+  
+<>
+
 <View style = {{flexDirection:"row",justifyContent:"space-between"}}>
   <Button title={"Start Spring Service"} onPress = {()=>{
    navigation.navigate("SpringFallSerivce1",{
@@ -203,6 +226,8 @@ useEffect(()=>{
   />
 
 </View>
+</> : null
+}
     </Layout>
   )
 }

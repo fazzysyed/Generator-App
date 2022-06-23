@@ -6,10 +6,10 @@ import  {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const Layout = ({children,back,navigation,logout,logoutHandler}) => {
+const Layout = ({children,back,navigation,logout,logoutHandler,scroll}) => {
   return (
     <LinearGradient colors={['#C297281A', '#C29727']} style={styles.linearGradient}>
-      <KeyboardAvoidingScrollView style ={{flex:1,height:"100%"}}>
+      <KeyboardAvoidingScrollView style ={{flex:1,height:"100%"}} scrollEnabled = {!scroll ? true:false}>
 
     <View style = {{
       flexDirection:"row",

@@ -56,7 +56,7 @@ const SpringFallSerivce1 = ({navigation,route}) => {
      
      activeUnderlineColor='transparent'
             editable = {false} 
-     value={`${Math.floor(Math.random()*90000) + 10000 }`}
+     value={`${po}`}
      onChangeText = {(text)=>setPo(text)}
 
       underlineColor="tranparent"   // add this
@@ -109,6 +109,7 @@ const SpringFallSerivce1 = ({navigation,route}) => {
 if (data.some(e => e.selected === true)) {
 
   let newData = {
+    po :po,
     checked : data,
     fromfirstScreen : fromfirstScreen
 }
@@ -131,7 +132,7 @@ fromSecondScreen :   newData
         <View/>
           <Text
             style={{
-              fontFamily: 'Poppins-SemiBold',
+               
               color: '#FFFFFF',
               fontSize: 22,
             }}>
@@ -207,13 +208,13 @@ const styles = StyleSheet.create({
     fontSize: hp(2.2),
     color: '#000',
     marginVertical: hp(0.5),
-    fontFamily: 'Poppins-SemiBold',
+     
   },
   textModal3: {
     fontSize: hp(2.4),
     color: '#004890',
 
-    fontFamily: 'Poppins-SemiBold',
+     
   },
   textModal1: {
     justifyContent: 'space-between',
@@ -227,14 +228,13 @@ flexDirection:"row",
   },
   textCancel: {
     fontSize: hp(2),
-    fontFamily: 'Poppins-Regular',
+  
     textAlign: 'center',
     color: '#FFFFFF',
   },
   textCancel1: {
     fontSize: hp(2),
 
-    fontFamily: 'Poppins-Regular',
 
     textAlign: 'center',
     color: '#fff',

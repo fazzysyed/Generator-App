@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Image ,TouchableOpacity,FlatList} from 'react-native'
+import { StyleSheet, Text, View,Image ,TouchableOpacity,FlatList,Dimensions} from 'react-native'
 import React,{useState} from 'react'
 import Layout from '../../components/Layout'
 import Camera from 'react-native-vector-icons/Feather'
@@ -117,6 +117,8 @@ const SpringFallSerivce6 = ({navigation,route}) => {
     });
   
       }else {
+      setLoading(false)
+
         SimpleToast.show("Image is required.")
       }
    
@@ -142,19 +144,32 @@ const getImage = (index)=>{
 }
   return (
 <Layout back navigation={navigation}>
-    <View style = {{justifyContent:"space-between",flex:1}}>
+ 
    <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10,alignSelf:"center",marginHorizontal:30,textAlign:"center"}}>Please take all applicable pictures for this job here</Text>
+<View style  ={{
+
+    flex: 1,
+    justifyContent:"center",
+    alignItems:"center",
+   
+    padding: 10,
+    marginBottom: 10,
+
+}}>
 
     <FlatList data={image} numColumns={2} renderItem={({item,index})=>(
-   <View>
+   <View style = {{
+   }}>
  {!item.image ?
   <TouchableOpacity onPress={()=>getImage(index)} style = {{
    backgroundColor:"white",
    marginVertical:10,
    borderRadius:8,
    borderWidth:1,borderColor:"#0048908F",
-  height:120,
-  width:160,
+  height:Dimensions.get("screen").height/6,
+  width: Dimensions.get("screen").width/2.5,
+  // flex:0.5,
+  
   marginHorizontal:10,
 justifyContent:"center",
    padding:20,
@@ -170,8 +185,9 @@ justifyContent:"center",
    borderWidth:1,borderColor:"#0048908F",
   height:120,
   marginHorizontal:10,
-
-  width:160
+  maxWidth: Dimensions.get('window').width /2,
+  flex:0.5,
+  // width:160
 
 
 }}>
@@ -181,7 +197,9 @@ justifyContent:"center",
 }
    </View>
     )}/>
-      <View style = {{marginVertical:30}}>
+</View>
+
+      <View style = {{marginVertical:10}}>
         <Button loading={loading} title={"Finish"} width={160} onPress = {()=>{
            submitService()
           // navigation.navigate("SpringFallSerivce7",{
@@ -189,7 +207,7 @@ justifyContent:"center",
           // })
         }}/>
       </View>
-    </View>
+
     
   </Layout>
   )

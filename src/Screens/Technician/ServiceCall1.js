@@ -20,7 +20,7 @@ const ServiceCall1 = ({navigation,route}) => {
   
   ])
   return (
-    <Layout back navigation={navigation}>
+    <Layout back navigation={navigation} scroll={true}>
 <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10,alignSelf:"center",marginHorizontal:30,textAlign:"center"}}>Please add all job related notes here</Text>
  
    {/* <Text style = {{color:"#222222",fontWeight:"bold",marginVertical:10}}>PO #</Text> */}
@@ -46,7 +46,7 @@ const ServiceCall1 = ({navigation,route}) => {
 <TextInput
      
      activeUnderlineColor='transparent'
-            numberOfLines={4}
+            numberOfLines={3}
             multiline={true}
 
             
@@ -63,7 +63,7 @@ const ServiceCall1 = ({navigation,route}) => {
 
   {data.length ?
   <View style = {{
-    height:200,marginVertical:20,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",padding:10,backgroundColor:"#FFFFFF",
+    marginVertical:20,borderTopLeftRadius:8,borderTopRightRadius:8,borderBottomLeftRadius:8,borderBottomRightRadius:8,borderWidth:1,borderColor:"#0048908F",padding:10,backgroundColor:"#FFFFFF",
     marginBottom:10
   }}>
   <FlatList data={data} renderItem = {({item})=>(
@@ -131,7 +131,7 @@ const ServiceCall1 = ({navigation,route}) => {
         <View/>
           <Text
             style={{
-              fontFamily: 'Poppins-SemiBold',
+              
               color: '#FFFFFF',
               fontSize: 22,
             }}>
@@ -206,13 +206,13 @@ const styles = StyleSheet.create({
     fontSize: hp(2.2),
     color: '#000',
     marginVertical: hp(0.5),
-    fontFamily: 'Poppins-SemiBold',
+    
   },
   textModal3: {
     fontSize: hp(2.4),
     color: '#004890',
 
-    fontFamily: 'Poppins-SemiBold',
+    
   },
   textModal1: {
     justifyContent: 'space-between',
@@ -226,14 +226,14 @@ flexDirection:"row",
   },
   textCancel: {
     fontSize: hp(2),
-    fontFamily: 'Poppins-Regular',
+    
     textAlign: 'center',
     color: '#FFFFFF',
   },
   textCancel1: {
     fontSize: hp(2),
 
-    fontFamily: 'Poppins-Regular',
+   
 
     textAlign: 'center',
     color: '#fff',

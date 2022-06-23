@@ -78,7 +78,7 @@ name: fromSeventhScreen.outside_generator.fileName,
 });
 data.append('service_type', fromSeventhScreen.fromfirstScreen.service_type);
 data.append('status', 'complete');
-data.append('po', '93933');
+data.append('po', fromSeventhScreen.po);
 
 newImages.map((item)=>{
 data.append('photo[]',item)
