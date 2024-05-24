@@ -206,7 +206,6 @@ const CustomerDetails = ({navigation, route}) => {
               let lat1 = parseFloat(item.latitude);
               let lon = parseFloat(item.longitude);
 
-              console.warn(lat + `,` + long);
               if (Platform === 'android' || 'ios') {
                 Linking.openURL(
                   `https://www.google.com/maps/dir/?api=1&origin=` +
